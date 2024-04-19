@@ -314,6 +314,8 @@ namespace PBIXInspectorLibrary
 
                         var forEachName = !string.IsNullOrEmpty(rule.ForEachPathName) ? ExecuteTokensPath((JObject?)forEachToken, rule.Name, rule.ForEachPathName, rule.PathErrorWhenNoMatch) : null;
                         var strForEachName = forEachName != null ? forEachName[0].ToString() : string.Empty;
+                        var forEachHeight = (int?)forEachToken["height"];
+                        var forEachWidth = (int?)forEachToken["width"];
 
                         var forEachDisplayName = !string.IsNullOrEmpty(rule.ForEachPathDisplayName) ? ExecuteTokensPath((JObject?)forEachToken, rule.Name, rule.ForEachPathDisplayName, rule.PathErrorWhenNoMatch) : null;
                         var strForEachDisplayName = forEachDisplayName != null ? forEachDisplayName[0].ToString() : string.Empty;
@@ -339,11 +341,11 @@ namespace PBIXInspectorLibrary
                             string resultString = string.Concat("\"", strForEachDisplayName, "\" - ", string.Format("Rule \"{0}\" {1} with result: {2}, expected: {3}.", rule != null ? rule.Name : string.Empty, result ? "PASSED" : "FAILED", jruleresult != null ? jruleresult.ToString() : string.Empty, rule.Test.Expected != null ? rule.Test.Expected.ToString() : string.Empty));
 
                             //yield return new TestResult { RuleName = rule.Name, ParentName = strForEachName, ParentDisplayName = strForEachDisplayName, Pass = result, Message = resultString, Expected = rule.Test.Expected, Actual = jruleresult};
-                            testResults.Add(new TestResult { RuleId = rule.Id, RuleName = rule.Name, LogType = ruleLogType, RuleDescription = rule.Description, ParentName = strForEachName, ParentDisplayName = strForEachDisplayName, Pass = result, Message = resultString, Expected = rule.Test.Expected, Actual = jruleresult });
+                            testResults.Add(new TestResult { RuleId = rule.Id, RuleName = rule.Name, LogType = ruleLogType, RuleDescription = rule.Description, ParentName = strForEachName, ParentDisplayName = strForEachDisplayName, ParentHeight = forEachHeight, ParentWidth = forEachWidth, Pass = result, Message = resultString, Expected = rule.Test.Expected, Actual = jruleresult });
                         }
                         catch (PBIXInspectorException e)
                         {
-                            testResults.Add(new TestResult { RuleId = rule.Id, RuleName = rule.Name, LogType = MessageTypeEnum.Error, RuleDescription = rule.Description, ParentName = strForEachName, ParentDisplayName = strForEachDisplayName, Pass = false, Message = e.Message, Expected = rule.Test.Expected, Actual = null });
+                            testResults.Add(new TestResult { RuleId = rule.Id, RuleName = rule.Name, LogType = MessageTypeEnum.Error, RuleDescription = rule.Description, ParentName = strForEachName, ParentDisplayName = strForEachDisplayName, ParentHeight = forEachHeight, ParentWidth = forEachWidth, Pass = false, Message = e.Message, Expected = rule.Test.Expected, Actual = null });
                             continue;
                         }
                     }

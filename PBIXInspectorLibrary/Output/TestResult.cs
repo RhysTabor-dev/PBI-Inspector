@@ -18,6 +18,10 @@ namespace PBIXInspectorLibrary.Output
 
         public string? ParentDisplayName { get; set; }
 
+        public int? ParentWidth { get; set; }
+
+        public int? ParentHeight { get; set; }
+
         public bool Pass { get; set; }
 
         public JsonNode? Expected { get; set; }
